@@ -1,0 +1,21 @@
+[Unit]
+Description=Raspberry Pond
+After=network.target
+
+[Service]
+# Hack because Python can't cope with a DynamicUser with no HOME
+Environment="HOME=/"
+Type=simple
+ExecStart=/home/pi/venv/bin/python /home/pi/pond.py
+
+# DynamicUser=yes
+MemoryDenyWriteExecute=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictRealtime=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+
+[Install]
+WantedBy=multi-user.target
